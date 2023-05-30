@@ -15,7 +15,7 @@ Repo for Dockerizing the GATK jar.
 Other versions of GATK were removed due to the log4j vulnerability.
 
 ## Building
-
+---
 These Docker images are based on Ubuntu 20.04.
 
 The Makefile in each directory provides the `make build-docker` target which will create an image with tags:
@@ -24,7 +24,7 @@ The Makefile in each directory provides the `make build-docker` target which wil
 `gatk:<version>-<short commit>`
 
 ## Running
-
+---
 The default entrypoint of these images is
 
 ```
@@ -40,3 +40,7 @@ and the default command is
 Thus, `docker run gatk:<version>` will print the help text of GATK.
 
 NOTE: the `4.2.4.1-no-entrypoint` image does not set a default entrypoint.
+
+## CommandLineTool
+---
+
