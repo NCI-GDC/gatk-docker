@@ -4,6 +4,8 @@
 
 Repo for Dockerizing the GATK jar.
 
+Quay Repository: https://quay.io/repository/ncigdc/gatk
+
 # Versions
 ---
 
