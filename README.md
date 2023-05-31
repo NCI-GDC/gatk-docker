@@ -82,3 +82,14 @@ arguments:
 baseCommand: [CalculateContamination]
 ```
 
+# Contributing
+---
+
+General contributing guide available [here](https://github.com/NCI-GDC/portal-ui/blob/develop/CONTRIBUTING.md).
+
+# License
+---
+
+[Apache 2.0](./LICENSE)
+
+GATK is licensed under [Apache 2.0](https://github.com/broadinstitute/gatk/blob/master/LICENSE.TXT)
