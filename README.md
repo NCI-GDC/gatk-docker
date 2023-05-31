@@ -5,12 +5,13 @@
 Repo for Dockerizing the GATK jar.
 
 # Versions
-
 ---
 
-- 3.7: Repo contains jar
-- 4.2.4.1
-  - With and without pre-defined entrypoint
+| Tag                   | GATK Version | Entrypoint                          |
+|-----------------------|--------------|-------------------------------------|
+| 3.7                   | 3.7          | `java -jar /usr/local/bin/gatk.jar` |
+| 4.2.4.1               | 4.2.4.1      | `java -jar /usr/local/bin/gatk.jar` |
+| 4.2.4.1-no-entrypoint | 4.2.4.1      | `/bin/sh -c` (default)              |
 
 Other versions of GATK were removed due to the log4j vulnerability.
 
@@ -20,8 +21,10 @@ These Docker images are based on Ubuntu 20.04.
 
 The Makefile in each directory provides the `make build-docker` target which will create an image with tags:
 
-`gatk:<version>`
-`gatk:<version>-<short commit>`
+* `gatk:<version>`
+* `gatk:<version>-<short commit>`
+
+Note: version tags are named after corresponding directories containing a `Makefile`
 
 ## Running
 ---
