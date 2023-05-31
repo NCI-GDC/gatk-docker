@@ -55,7 +55,7 @@ class: CommandLineTool
 id: gatk4_calculatecontamination
 requirements:
   - class: DockerRequirement
-    dockerPull: _gatk:<version>_
+    dockerPull: docker.osdc.io/ncigdc/gatk:4.2.4.1
   - class: InlineJavascriptRequirement
 
 inputs:
