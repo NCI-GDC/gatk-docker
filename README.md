@@ -19,9 +19,18 @@ Other versions of GATK were removed due to the log4j vulnerability.
 
 ## Building
 ---
+
+The `build.sh` script facilitates building all images:
+
+`bash build.sh build`
+
 These Docker images are based on Ubuntu 20.04.
 
-The Makefile in each directory provides the `make build-docker` target which will create an image with tags:
+Images of GATK4 are built from the `Dockerfile.multi` file.
+
+The GATK 3.7 image is built from the `3.7/Dockerfile` and packages the included jar file.
+
+The Makefile in each `<version>` directory provides the `make build-docker` target which will create an image with tags:
 
 * `gatk:<version>`
 * `gatk:<version>-<short commit>`
@@ -42,7 +51,11 @@ and the default command is
 --help
 ```
 
-Thus, `docker run gatk:<version>` will print the help text of GATK.
+Executing `docker run gatk:<version>` will print the help text of GATK.
+
+Extra arguments after the image tag will be passed to `GATK`:
+
+`docker run gatk:<version> ValidateSamFile  -I input.bam -MODE SUMMARY`
 
 NOTE: the `4.2.4.1-no-entrypoint` image does not set a default entrypoint.
 
