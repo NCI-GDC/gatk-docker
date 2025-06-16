@@ -21,7 +21,7 @@ RUN dnf install -y \ <<EOF
     build-essential \
     openjdk-8-jre-headless\
     r-base \
-    unzip 
+    unzip
 EOF
 # RUN dnf install -y tools
 
