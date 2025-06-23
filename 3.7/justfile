@@ -1,5 +1,5 @@
 SOFTWARE := "gatk"
-DOCKERFILE := "../Dockerfile.multi"
+DOCKERFILE := "./Dockerfile"
 BASE_CONTAINER_REGISTRY := env_var_or_default("BASE_CONTAINER_REGISTRY", "docker.osdc.io")
 
 VERSION := `basename $(pwd)`
