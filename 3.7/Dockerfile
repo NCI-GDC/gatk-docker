@@ -1,4 +1,4 @@
-FROM quay.io/ncigdc/bio-ubuntu:20.04
+FROM ${REGISTRY}/ncigdc/amzn2023-builder:${TAG} AS builder
 
 MAINTAINER Charles Czysz <czysz@uchicago.edu>
 
