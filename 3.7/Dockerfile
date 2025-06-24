@@ -1,4 +1,7 @@
-FROM ${REGISTRY}/ncigdc/amzn2023-builder:${TAG} AS builder
+ARG REPOSITORY=docker.osdc.io
+ARG BUILDER_TAG=3.1.0
+
+FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
 
 MAINTAINER Charles Czysz <czysz@uchicago.edu>
 
