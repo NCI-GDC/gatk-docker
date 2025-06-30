@@ -4,7 +4,7 @@ MAINTAINER Charles Czysz <czysz@uchicago.edu>
 
 ENV VERSION=4.2.4.1
 
-ENV URL=https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip
+ADD https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip gatk-${VERSION}.zip
 
 RUN apt-get update \
 	&& apt-get install -y \
@@ -16,8 +16,7 @@ RUN apt-get update \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN wget $URL \
-	&& unzip gatk-${VERSION}.zip \
+RUN unzip gatk-${VERSION}.zip \
 	&& mv gatk-${VERSION}/* /usr/local/bin/ \
 	&& rm -rf gatk-* \
 	&& ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar \
