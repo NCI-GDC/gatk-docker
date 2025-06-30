@@ -9,7 +9,7 @@ LABEL version="nightly-2016-02-25-gf39d340"
 LABEL description="GATK3 nightly-2016-02-25-gf39d340"
 
 RUN dnf update -y \
-    && dnf install -y java-21-amazon-corretto
+    && dnf install -y java-1.8.0-amazon-corretto
 
 ADD https://nexus.osdc.io/repository/misc/gatk/GenomeAnalysisTK.jar /usr/local/bin/GenomeAnalysisTK.jar
 #COPY GenomeAnalysisTK.jar /usr/local/bin
