@@ -8,10 +8,8 @@ MAINTAINER Charles Czysz <czysz@uchicago.edu>
 LABEL version="nightly-2016-02-25-gf39d340"
 LABEL description="GATK3 nightly-2016-02-25-gf39d340"
 
-RUN dnf update -y <<EOF
-    dnf install -y \
-      openjdk-8-jre-headless
-EOF
+RUN dnf update -y \
+    && dnf install -y openjdk-8-jre-headless
 
 ADD https://nexus.osdc.io/repository/misc/gatk/GenomeAnalysisTK.jar /usr/local/bin/GenomeAnalysisTK.jar
 #COPY GenomeAnalysisTK.jar /usr/local/bin
