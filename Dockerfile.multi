@@ -18,7 +18,7 @@ EOF
 
 # Example add package step
 RUN dnf install -y \ <<EOF
-    openjdk-8-jre-headless \
+    java-1.8.0-amazon-corretto \
     R-java-devel \
     unzip
 EOF
