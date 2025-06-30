@@ -18,9 +18,8 @@ EOF
 
 # Example add package step
 RUN dnf install -y \ <<EOF
-    build-essential \
-    openjdk-8-jre-headless\
-    r-base \
+    openjdk-8-jre-headless \
+    R-java-devel \
     unzip
 EOF
 # RUN dnf install -y tools
