@@ -17,11 +17,7 @@ tar -oxzf /src/gatk.tar.gz -C /gatk
 EOF
 
 # Example add package step
-RUN dnf install -y \ <<EOF
-    java-1.8.0-amazon-corretto \
-    R-java-devel \
-    unzip
-EOF
+RUN dnf install -y java-1.8.0-amazon-corretto R-java-deve lunzip
 # RUN dnf install -y tools
 
 ### Run install steps
