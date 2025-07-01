@@ -2,7 +2,7 @@ SOFTWARE := "gatk"
 DOCKERFILE := "./Dockerfile"
 BASE_CONTAINER_REGISTRY := env_var_or_default("BASE_CONTAINER_REGISTRY", "docker.osdc.io")
 
-VERSION := 4.2.4.1"
+VERSION := "4.2.4.1"
 
 emit-dockerfile:
     @echo {{DOCKERFILE}}
