@@ -1,27 +1,30 @@
- FROM quay.io/ncigdc/bio-ubuntu:20.04 AS builder
+ARG REPOSITORY=docker.osdc.io
+ARG BUILDER_TAG=3.1.0
 
-MAINTAINER Charles Czysz <czysz@uchicago.edu>
+### Download tarball to scratch layer
+FROM scratch AS src
+ARG VERSION
+ADD https://github.com/broadinstitute/gatk/archive/refs/tags/${VERSION}.tar.gz gatk.tar.gz
 
-ENV VERSION=4.2.4.1
+FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
 
-ADD https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip gatk-${VERSION}.zip
+ARG VERSION
 
-RUN apt-get update \
-	&& apt-get install -y \
-		build-essential \
-		openjdk-8-jre-headless \
-		r-base \
-		unzip \
-		wget \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+### Mount tarball from scratch layer and untar into builder layer
+RUN --mount=from=src,target=/src <<EOF
+mkdir -p /gatk
+tar -oxzf /src/gatk.tar.gz -C /gatk
+EOF
 
-RUN unzip gatk-${VERSION}.zip \
-	&& mv gatk-${VERSION}/* /usr/local/bin/ \
-	&& rm -rf gatk-* \
-	&& ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar \
-	&& apt-get purge -y \
-		build-essential \
-		unzip \
-		wget \
-	&& ls -l /usr/local/bin
+# Example add package step
+RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
+# RUN dnf install -y tools
+
+### Run install steps
+WORKDIR /gatk
+
+RUN <<EOF
+mv gatk-${VERSION}/* /usr/local/bin/
+rm -rf gatk-*
+ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
+EOF
