@@ -16,6 +16,4 @@ ADD https://nexus.osdc.io/repository/misc/gatk/GenomeAnalysisTK.jar /usr/local/b
 
 RUN ln -s /usr/local/bin/GenomeAnalysisTK.jar /usr/local/bin/gatk.jar
 
-ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
-
-CMD ["--help"]
+CMD ["java", "-jar", "/usr/local/bin/gatk.jar", "--help"]
