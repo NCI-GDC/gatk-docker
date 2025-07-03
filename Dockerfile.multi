@@ -26,6 +26,7 @@ WORKDIR /gatk
 RUN <<EOF
 mv gatk-${VERSION}/* /usr/local/bin/
 rm -rf gatk-*
+chmod a+r /usr/local/bin/*.jar
 ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
 EOF
 

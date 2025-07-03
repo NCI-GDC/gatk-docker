@@ -14,6 +14,7 @@ RUN dnf update -y \
 ADD https://nexus.osdc.io/repository/misc/gatk/GenomeAnalysisTK.jar /usr/local/bin/GenomeAnalysisTK.jar
 #COPY GenomeAnalysisTK.jar /usr/local/bin
 
-RUN ln -s /usr/local/bin/GenomeAnalysisTK.jar /usr/local/bin/gatk.jar
+RUN chmod a+r /usr/local/bin/GenomeAnalysisTK.jar \
+    && ln -s /usr/local/bin/GenomeAnalysisTK.jar /usr/local/bin/gatk.jar
 
 CMD ["java", "-jar", "/usr/local/bin/gatk.jar", "--help"]
