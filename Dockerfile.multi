@@ -20,17 +20,12 @@ EOF
 RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
 # RUN dnf install -y tools
 
-WORKDIR /gatk/gatk-${VERSION}
+WORKDIR /gatk
 
-RUN cp gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
+# Copy only the actual prebuilt GATK jar into /usr/local/bin
+RUN cp gatk-${VERSION}/gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
     chmod a+r /usr/local/bin/gatk-package-${VERSION}-local.jar && \
     ln -sf /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
-
-### Multi-stage build (kept exactly as you had it)
-#FROM ${REPOSITORY}/ncigdc/amzn2023:${BUILDER_TAG}
-#COPY --from=builder /usr/local /usr/local
-
-ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
 
 
 ### Run install steps
@@ -49,4 +44,4 @@ ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
 
 #COPY --from=builder /usr/local /usr/local
 
-#ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
