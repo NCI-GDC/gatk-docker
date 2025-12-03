@@ -23,7 +23,7 @@ RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
 WORKDIR /gatk
 
 # Copy only the actual prebuilt GATK jar into /usr/local/bin
-RUN cp gatk-${VERSION}/gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
+RUN cp */gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
     chmod a+r /usr/local/bin/gatk-package-${VERSION}-local.jar && \
     ln -sf /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
 
