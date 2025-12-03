@@ -4,7 +4,8 @@ ARG BUILDER_TAG=3.1.0
 ### Download tarball to scratch layer
 FROM scratch AS src
 ARG VERSION
-ADD https://github.com/broadinstitute/gatk/archive/refs/tags/${VERSION}.tar.gz gatk.tar.gz
+#ADD https://github.com/broadinstitute/gatk/archive/refs/tags/${VERSION}.tar.gz gatk.tar.gz
+ADD https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.tar.gz gatk.tar.gz
 
 FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
 
@@ -23,7 +24,7 @@ RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
 WORKDIR /gatk
 
 # Copy only the actual prebuilt GATK jar into /usr/local/bin
-RUN cp */gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
+RUN cp gatk-${VERSION}/gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
     chmod a+r /usr/local/bin/gatk-package-${VERSION}-local.jar && \
     ln -sf /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
 
