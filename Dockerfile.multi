@@ -16,36 +16,22 @@ mkdir -p /gatk
 tar -oxzf /src/gatk.tar.gz -C /gatk
 EOF
 
+# Example add package step
+RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
+# RUN dnf install -y tools
 
-### Run install steps
 WORKDIR /gatk/gatk-${VERSION}
 
-# ------------------------
-# FIX: build the actual GATK jar
-# ------------------------
-RUN ./gradlew bundleLocalJar
-
-# ------------------------
-# FIX: copy the built jar and set up symlink
-# ------------------------
-RUN cp build/libs/gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
+RUN cp gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
     chmod a+r /usr/local/bin/gatk-package-${VERSION}-local.jar && \
     ln -sf /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
 
-# (Left your multistage final image commented out exactly as you had it)
-### Multi-stage build:
+### Multi-stage build (kept exactly as you had it)
 #FROM ${REPOSITORY}/ncigdc/amzn2023:${BUILDER_TAG}
 #COPY --from=builder /usr/local /usr/local
 
 ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
 
-
-
-
-
-# Example add package step
-RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
-# RUN dnf install -y tools
 
 ### Run install steps
 #WORKDIR /gatk
