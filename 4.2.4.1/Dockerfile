@@ -7,15 +7,22 @@ FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG}
 ARG VERSION
 
 LABEL version="${VERSION}"
-LABEL description="GATK4 ${VERSION} (jar from nexus maven-public, /usr/local/bin/gatk.jar)"
+LABEL description="GATK4 ${VERSION} (standalone jar from Nexus release zip)"
 
-RUN dnf install -y java-1.8.0-amazon-corretto ca-certificates \
+RUN dnf install -y java-17-amazon-corretto-headless unzip ca-certificates \
     && dnf clean all
 
-ADD https://nexus.osdc.io/repository/maven-public/org/broadinstitute/gatk/${VERSION}/gatk-${VERSION}.jar \
-    /usr/local/bin/gatk-${VERSION}.jar
+ADD https://nexus.osdc.io/repository/github/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip \
+    /tmp/gatk.zip
 
-RUN chmod a+r /usr/local/bin/gatk-${VERSION}.jar \
-    && ln -sf /usr/local/bin/gatk-${VERSION}.jar /usr/local/bin/gatk.jar
+RUN set -eux; \
+    mkdir -p /opt/gatk /usr/local/bin; \
+    unzip -q /tmp/gatk.zip -d /opt/gatk; \
+    test -f "/opt/gatk/gatk-${VERSION}/gatk-package-${VERSION}-local.jar"; \
+    cp "/opt/gatk/gatk-${VERSION}/gatk-package-${VERSION}-local.jar" "/usr/local/bin/gatk-package-${VERSION}-local.jar"; \
+    chmod a+r "/usr/local/bin/gatk-package-${VERSION}-local.jar"; \
+    ln -sf "/usr/local/bin/gatk-package-${VERSION}-local.jar" "/usr/local/bin/gatk.jar"; \
+    rm -f /tmp/gatk.zip; \
+    rm -rf /opt/gatk
 
 CMD ["java", "-jar", "/usr/local/bin/gatk.jar", "--help"]
