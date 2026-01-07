@@ -25,4 +25,5 @@ RUN set -eux; \
     rm -f /tmp/gatk.zip; \
     rm -rf /opt/gatk
 
-CMD ["java", "-jar", "/usr/local/bin/gatk.jar", "--help"]
+ENTRYPOINT ["java", "-jar", "/usr/local/bin/gatk.jar"]
+CMD ["--help"]
