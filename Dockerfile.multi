@@ -4,7 +4,8 @@ ARG BUILDER_TAG=3.1.0
 ### Download tarball to scratch layer
 FROM scratch AS src
 ARG VERSION
-ADD https://github.com/broadinstitute/gatk/archive/refs/tags/${VERSION}.tar.gz gatk.tar.gz
+#ADD https://github.com/broadinstitute/gatk/archive/refs/tags/${VERSION}.tar.gz gatk.tar.gz
+ADD https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip gatk.zip
 
 FROM ${REPOSITORY}/ncigdc/amzn2023-builder:${BUILDER_TAG} AS builder
 
@@ -13,22 +14,32 @@ ARG VERSION
 ### Mount tarball from scratch layer and untar into builder layer
 RUN --mount=from=src,target=/src <<EOF
 mkdir -p /gatk
-tar -oxzf /src/gatk.tar.gz -C /gatk
+#tar -oxzf /src/gatk.tar.gz -C /gatk
+unzip /src/gatk.zip -d /gatk
 EOF
 
 # Example add package step
 RUN dnf install -y java-1.8.0-amazon-corretto R-java-devel unzip
 # RUN dnf install -y tools
 
-### Run install steps
 WORKDIR /gatk
 
-RUN <<EOF
-mv gatk-${VERSION}/* /usr/local/bin/
-rm -rf gatk-*
-chmod a+r /usr/local/bin/*.jar
-ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
-EOF
+# Copy only the actual prebuilt GATK jar into /usr/local/bin
+RUN cp gatk-${VERSION}/gatk-package-${VERSION}-local.jar /usr/local/bin/ && \
+    chmod a+r /usr/local/bin/gatk-package-${VERSION}-local.jar && \
+    ln -sf /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
+
+
+### Run install steps
+#WORKDIR /gatk
+
+#RUN <<EOF
+#mv gatk-${VERSION}/* /usr/local/bin/
+
+#crm -rf gatk-*
+#chmod a+r /usr/local/bin/*.jar
+#ln -s /usr/local/bin/gatk-package-${VERSION}-local.jar /usr/local/bin/gatk.jar
+#EOF
 
 ### Multi-stage build:
 #FROM ${REPOSITORY}/ncigdc/amzn2023:${BUILDER_TAG}
